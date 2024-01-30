@@ -1,8 +1,8 @@
 import {DetailedHTMLProps, forwardRef, InputHTMLAttributes, LegacyRef} from "react";
 
 interface ITextFieldClassNameProps {
-    label: string
-    input: string
+    label?: string
+    input?: string
 }
 
 interface ITextFieldProps extends Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'className'> {
@@ -19,7 +19,7 @@ const TextField = forwardRef(
          ...props
      }: ITextFieldProps, ref: LegacyRef<HTMLInputElement>) => {
         const labelClassName = className?.label
-        const inputClassName = className?.label
+        const inputClassName = className?.input
         const id = props.id ?? crypto.randomUUID()
 
         return (
