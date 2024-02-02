@@ -1,39 +1,12 @@
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {object, string} from "yup";
-import {useEffect, useState} from "react";
-import {Params} from "@domain/common/params/base-class";
-import {useNavigate} from "react-router-dom";
 import TextField from "@app/components/textfield";
 import bg from '@app/assets/bg.svg'
 import logo_auth from '@app/assets/logo_auth.svg'
 import IPST from '@app/assets/IPST.svg'
-
-interface IBaseLoginForm {
-    email: string
-    password: string
-}
+import useLoginPresenter from "@app/case/login/presenter";
 
 const App = () => {
-    const [projectUrl, setProjectUrl] = useState('');
-    useEffect(() => {
-        const projectParam = new URLSearchParams(window.location.search).get('project');
-        setProjectUrl(projectParam ?? 'https://front.ipst-platform.ipst-dev.com');
-    }, []);
-    console.log(projectUrl)
-    const params = new Params<IBaseLoginForm>()
-    const LoginFormSchema = object().shape({
-        email: string().required('Поле "id" обязательно для заполнения'),
-        password: string().required('Поле "rtc" обязательно для заполнения'),
-    });
-    const navigate = useNavigate()
-    const {handleSubmit, ...form} = useForm<IBaseLoginForm>({
-        resolver: yupResolver(LoginFormSchema),
-        reValidateMode: "onChange",
-    })
-    const handleSubmitCallback = handleSubmit(async (data) => {
-        void navigate(params.setParams('https://front.ipst-platform.ipst-dev.com/', data))
-    });
+
+    const {form, handleSubmitCallback} = useLoginPresenter()
 
     return (
 
@@ -43,15 +16,15 @@ const App = () => {
             max-[360px]:block max-[360px]:bg-white
             '>
 
-            <div className="relative z-10 w-full">
+            <div className="relative z-10 w-full flex items-center justify-center">
                 <form
                     onSubmit={handleSubmitCallback}
                     className="min-[360px]:border min-[360px]:border-inputBorder min-[360px]:shadow-md rounded-2xl p-[30px] bg-white
-                      absolute translate-y-[-50%] xl:translate-x-[-50%] max-[1280px]:left-[7%] max-[1280px]:top-[66%]
-                      max-[1280px]:right-[7%] left-1/2 top-1/2 max-[360px]:left-0 max-[360px]:right-0
+                      absolute translate-y-[-50%] xl:translate-x-[-50%] max-[1280px]:translate-x-[0]
+                      max-[1280px]:translate-y-[0] max-[1280px]:left-auto max-[1280px]:right-auto max-[1280px]:w-[400px] max-[1280px]:top-[66%]
+                      max-[1280px]:mx-auto left-1/2 top-1/2 max-[360px]:left-0 max-[360px]:right-0
                       max-[360px]:w-full max-[360px]:h-full max-[360px]:rounded-none
-                      max-[360px]:row-span-2
-                      "
+                      max-[360px]:row-span-2"
                 >
                     <div className="flex flex-col items-center mb-8 font-bold">
                         <div className="flex items-center mb-4">
@@ -91,7 +64,7 @@ const App = () => {
                 </form>
             </div>
             <div className='w-full h-full overflow-hidden relative'>
-                <img src={bg} className='absolute right-0 object-none h-full max-[1279px]:hidden' alt="background"/>
+                <img src={bg} className='absolute right-0 object-cover h-full max-[1279px]:hidden' alt="background"/>
             </div>
 
         </div>
