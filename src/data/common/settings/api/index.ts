@@ -2,8 +2,11 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 import {CookieValues} from "@domain/interfaces/common/enums/cookie";
 
+const defaultURL = import.meta.env.VITE_API_HOST
+
+
 const API_HTTPS_SERVICES = axios.create({
-    baseURL: 'https://api.ipst-platform.ipst-dev.com',
+    baseURL: defaultURL,
     withCredentials: false,
 })
 
